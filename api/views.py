@@ -33,3 +33,7 @@ class ProductsByUser(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return Product.objects.filter(username=user)
+    
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
