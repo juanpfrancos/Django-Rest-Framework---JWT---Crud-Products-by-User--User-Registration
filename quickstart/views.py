@@ -1,16 +1,14 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer, ProductSerializer
+from rest_framework import generics, permissions, viewsets
+from .serializers import UserSerializer, GroupSerializer, ProductSerializer, ProductByUserSerializer
 from .models import Product
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-
-
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
@@ -24,3 +22,10 @@ class GroupViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by('username')
     serializer_class = ProductSerializer
+    
+class ProductsByUser(viewsets.ModelViewSet):
+    serializer_class = ProductByUserSerializer
+    #Only return current user products
+    def get_queryset(self):
+        user = self.request.user
+        return Product.objects.filter(username=user)

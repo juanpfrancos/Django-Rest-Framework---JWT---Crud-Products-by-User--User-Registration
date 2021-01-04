@@ -7,13 +7,21 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['username', 'url', 'email', 'groups']
 
-
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ['url', 'name']
         
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'username', 'name', 'price', 'reference')
+        
+class ProductByUserSerializer(serializers.ModelSerializer):
+    #Serialize username like current user
+    username = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )    
     class Meta:
         model = Product
         fields = ('id', 'username', 'name', 'price', 'reference')
