@@ -17,7 +17,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         model = Product
         fields = ('id', 'username', 'name', 'price', 'reference')
         
-class ProductByUserSerializer(serializers.ModelSerializer):
+class ProductByUserSerializer(serializers.HyperlinkedModelSerializer):
     #Serialize username like current user
     username = serializers.HiddenField(
         default=serializers.CurrentUserDefault()

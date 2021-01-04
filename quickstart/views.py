@@ -23,7 +23,9 @@ class GroupViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by('username')
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #Only the admin can access to all products
+    permission_classes = [permissions.IsAdminUser]
+    
 class ProductsByUser(viewsets.ModelViewSet):
     serializer_class = ProductByUserSerializer
     permission_classes = [permissions.IsAuthenticated]
